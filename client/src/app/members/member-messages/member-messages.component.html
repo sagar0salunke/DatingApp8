@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-body">
-        @if (messages().length === 0) {
+        @if (messageService.messageThread().length === 0) {
             <p>No messages yet</p>
         } @else {
             <ul class="chat">
-                @for (message of messages(); track message.id) {
+                @for (message of messageService.messageThread(); track message.id) {
                     <li>
                         <div>
                             <span class="chat-img float-end">
@@ -16,12 +16,12 @@
                             <div class="chat-body">
                                 <div class="header">
                                     <small class="text-muted">
-                                        <span class="fa fa-clock-o">{{ message.messageSent }}</span>
+                                        <span class="fa fa-clock-o">{{message.messageSent | timeago}}</span>
                                         @if (!message.dateRead && message.senderUsername !== username()) {
                                             <span class="text-danger">(unread)</span>
                                         }
                                         @if (message.dateRead && message.senderUsername !== username()) {
-                                            <span class="text-success">(read {{message.dateRead }})</span>
+                                            <span class="text-success">(read {{message.dateRead | timeago}})</span>
                                         }
                                     </small>
                                 </div>
@@ -34,6 +34,7 @@
             </ul>
         }
     </div>
+
     <div class="card-footer">
         <form #messageForm="ngForm" (ngSubmit)="sendMessage()">
             <div class="input-group">
@@ -50,4 +51,5 @@
             </div>
         </form>
     </div>
+
 </div>
